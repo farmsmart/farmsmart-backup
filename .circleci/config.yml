@@ -14,15 +14,10 @@ workflows:
     triggers:
       - schedule:
           cron: "0 1 * * *"
-    jobs:
-      - backup:
-          context: prod
           filters:
             branches:
               only:
                 - master
-
-  test:
     jobs:
       - backup:
           context: prod
