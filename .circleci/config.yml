@@ -21,3 +21,8 @@ workflows:
     jobs:
       - backup:
           context: prod
+
+  test:
+    jobs:
+      - backup:
+          context: prod
