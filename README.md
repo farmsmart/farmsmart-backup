@@ -2,7 +2,7 @@
 
 Cron scheduled backup for farmsmart, the backup is scheduled to run via CircleCI, the schedule can be modified in `./circleci/config.yml`.
 
-You can use the following to check a cron schedule: https://crontab.guru/#0_1_*_*_*
+[Use this link to check a cron schedule](https://crontab.guru/#0_1_*_*_*`)
 
 The backup bucket is in the same project and should be named <google_project_id>_farmsmart_backup.
 
