@@ -2,7 +2,8 @@
 set -euo pipefail
 
 google_service_account=${1}
-google_project_id=${2}
+firebase_token=${2}
+google_project_id=${3}
 
 backup_bucket="${google_project_id}_farmsmart_backup"
 firebase_asset_bucket="${google_project_id}.appspot.com"
@@ -15,7 +16,7 @@ gcloud auth activate-service-account --key-file "${google_service_account}"
 gcloud config set project "${google_project_id}"
 
 # Export firebase user data.
-firebase auth:export --project "${google_project_id}" --format=json "./users_${backup_date}.json"
+firebase auth:export --token "${firebase_token}" --project "${google_project_id}" --format=json "./users_${backup_date}.json"
 gsutil cp -rZ "./users_${backup_date}.json" "gs://${backup_bucket}/${backup_date}/user_data/"
 
 # Export firestore data to backup bucket.

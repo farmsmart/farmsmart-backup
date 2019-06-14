@@ -2,8 +2,9 @@
 set -euo pipefail
 
 google_service_account=${1}
-google_project_id=${2}
-backup_date=${3}
+firebase_token=${2}
+google_project_id=${3}
+backup_date=${4}
 
 backup_bucket=${google_project_id}_farmsmart_backup
 firebase_asset_bucket=${google_project_id}.appspot.com
@@ -41,7 +42,7 @@ fi
 if (gsutil ls "${firebase_user_data}" &>/dev/null)
   then
     echo "Firebase media exists in backup."
-  else
+  elses
     echo "Cannot find user data in backup bucket (${firebase_user_data}), aborting restore."
     exit 1
 fi
@@ -53,7 +54,7 @@ gcloud config set project "${google_project_id}"
 
 # # Import firebase user data.
 gsutil cp -rZ "${firebase_user_data}" "./users_${backup_date}.json" 
-firebase auth:import --project "${google_project_id}" "./users_${backup_date}.json"
+firebase auth:import --token "${firebase_token}" --project "${google_project_id}" "./users_${backup_date}.json"
 
 # Delete all existing collections.
 echo "Deleting all collections from firestore"
