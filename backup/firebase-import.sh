@@ -14,6 +14,10 @@ firebase_assets="gs://${backup_bucket}/${backup_date}/assets"
 firebase_user_data="gs://${backup_bucket}/${backup_date}/user_data/users_${backup_date}.json"
 
 # Safety Checks
+# Authenticate service account.
+echo "Authenticating with service account: '${google_service_account}'"
+gcloud auth activate-service-account --key-file "${google_service_account}"
+gcloud config set project "${google_project_id}"
 
 if (gsutil ls "gs://${backup_bucket}/${backup_date}" &>/dev/null)
   then
@@ -42,27 +46,24 @@ fi
 if (gsutil ls "${firebase_user_data}" &>/dev/null)
   then
     echo "Firebase media exists in backup."
-  elses
+  else
     echo "Cannot find user data in backup bucket (${firebase_user_data}), aborting restore."
     exit 1
 fi
 
-# Authenticate service account.
-echo "Authenticating with service account: '${google_service_account}'"
-gcloud auth activate-service-account --key-file "${google_service_account}"
-gcloud config set project "${google_project_id}"
 
 # # Import firebase user data.
-gsutil cp -rZ "${firebase_user_data}" "./users_${backup_date}.json" 
-firebase auth:import --token "${firebase_token}" --project "${google_project_id}" "./users_${backup_date}.json"
+mkdir -p output
+gsutil cp -rZ "${firebase_user_data}" "./output/users.json"
+firebase auth:import --token "${firebase_token}" --project "${google_project_id}" "./output/users.json"
 
 # Delete all existing collections.
 echo "Deleting all collections from firestore"
-firebase firestore:delete --project "${google_project_id}" -y --all-collections
+firebase firestore:delete --token "${firebase_token}" --project "${google_project_id}" -y --all-collections
 
 # Import firestore data into the firebase project.
 echo "Restoring firestore data to ${google_project_id} from 'gs://${backup_bucket}/${backup_date}'"
-gcloud beta firestore import "${firestore_data}"
+gcloud beta firestore import "${firestore_data}" --project "${google_project_id}"
 
 # Import the firebase cloud storage bucket data.
 echo "Restoring bucket assets to ${google_project_id} from 'gs://${backup_bucket}/${backup_date}'"
