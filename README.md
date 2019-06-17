@@ -29,4 +29,4 @@ Currently the import is a manual process which required firebase SDK and the goo
 - `credential_file` : The path to the GCP service account.
 - `firebase_token` : The firebase token which can be generated with `firebase login:ci`.
 - `project` : The GCP project id to backup.
-- `date` : The folder which contains the backup present in the GCP backup bucketwhich is in the form "%Y-%m-%dT%H:%M:%SZ" eg. `2019-06-14T13:01:49Z`
+- `date` : The folder which contains the backup present in the GCP backup bucketwhich is in the form "%Y%m%d.%H%M%SZ" eg. `20190614.130149Z`
