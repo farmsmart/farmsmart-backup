@@ -45,7 +45,7 @@ fi
 
 if (gsutil ls "${firebase_user_data}" &>/dev/null)
   then
-    echo "Firebase media exgit ists in backup."
+    echo "Firebase media exists in backup."
   else
     echo "Cannot find user data in backup bucket (${firebase_user_data}), aborting restore."
     exit 1
