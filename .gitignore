@@ -1,3 +1,4 @@
 output
 users*.json
 *.log
+*.json
