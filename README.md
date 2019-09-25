@@ -22,7 +22,7 @@ The backup bucket is in the same project and should be named <google_project_id>
 
 ## Import
 
-Currently the import is a manual process which requires firebase SDK and the google cloud SDK. There is a docker image which has these dependencies installed - farmsmart/gcp-firebase:1.0.0
+Currently the import is a manual process which requires firebase SDK and the google cloud SDK. There is a docker image which has these dependencies installed - farmsmart/gcp-firebase
 
 `backup/firebase-import.sh ${credential_file} ${firebase_token} ${project} ${date}`
 
