@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   backup:
     docker:
-      - image: farmsmart/gcp-firebase:1.0.0
+      - image: farmsmart/gcp-firebase:latest
     steps:
       - checkout
       - run: |
